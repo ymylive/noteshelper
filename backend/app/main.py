@@ -8,12 +8,16 @@ from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.api.routes import api_router
+from app.database import create_tables
+
+
+os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    # Startup: ensure upload directory exists
-    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+    # Startup: create tables
+    await create_tables()
     yield
     # Shutdown: nothing to clean up
 

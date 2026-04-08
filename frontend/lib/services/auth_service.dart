@@ -18,7 +18,18 @@ class AuthService {
         'display_name': displayName,
       },
     );
-    return response.data as Map<String, dynamic>;
+
+    final data = response.data as Map<String, dynamic>;
+
+    // Store tokens returned from registration
+    if (data['access_token'] != null) {
+      await _client.setTokens(
+        accessToken: data['access_token'] as String,
+        refreshToken: data['refresh_token'] as String? ?? '',
+      );
+    }
+
+    return data;
   }
 
   Future<Map<String, dynamic>> login({

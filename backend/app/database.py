@@ -5,13 +5,15 @@ from sqlalchemy.orm import DeclarativeBase
 
 from app.config import settings
 
-engine = create_async_engine(
-    settings.DATABASE_URL,
-    echo=False,
-    pool_size=20,
-    max_overflow=10,
-    pool_pre_ping=True,
-)
+_is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+
+_engine_kwargs: dict = {
+    "echo": False,
+}
+if not _is_sqlite:
+    _engine_kwargs.update(pool_size=20, max_overflow=10, pool_pre_ping=True)
+
+engine = create_async_engine(settings.DATABASE_URL, **_engine_kwargs)
 
 async_session = async_sessionmaker(
     engine,
@@ -22,6 +24,14 @@ async_session = async_sessionmaker(
 
 class Base(DeclarativeBase):
     pass
+
+
+async def create_tables() -> None:
+    """Create all tables (for development / SQLite use)."""
+    import app.models  # noqa: F401 – ensure models are registered
+
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:

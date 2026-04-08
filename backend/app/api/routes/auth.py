@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.deps import get_current_user
 from app.database import get_db
+from app.models.user import User
 from app.schemas.auth import (
     UserCreate,
     UserLogin,
@@ -66,3 +68,15 @@ async def refresh(body: RefreshRequest, db: AsyncSession = Depends(get_db)) -> T
         refresh_token=tokens["refresh_token"],
         user=UserResponse.model_validate(user),
     )
+
+
+@router.get("/me", response_model=UserResponse)
+async def get_me(current_user: User = Depends(get_current_user)) -> UserResponse:
+    return UserResponse.model_validate(current_user)
+
+
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+async def logout() -> None:
+    # Token invalidation is handled client-side by clearing stored tokens.
+    # Server-side token blocklist can be added later if needed.
+    return None

@@ -83,13 +83,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<bool> register(String email, String password, String displayName) async {
     state = state.copyWith(isLoading: true, clearError: true);
     try {
-      await _authService.register(
+      final data = await _authService.register(
         email: email,
         password: password,
         displayName: displayName,
       );
-      // Auto-login after registration
-      return login(email, password);
+      User? user;
+      if (data['user'] != null) {
+        user = User.fromJson(data['user'] as Map<String, dynamic>);
+      }
+      state = AuthState(isLoggedIn: true, user: user);
+      return true;
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
