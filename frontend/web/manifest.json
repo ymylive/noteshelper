@@ -1,0 +1,11 @@
+{
+  "name": "NotesHelper",
+  "short_name": "NotesHelper",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0D1117",
+  "theme_color": "#3F51B5",
+  "description": "AI-powered notes app with image recognition and mind maps.",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false
+}

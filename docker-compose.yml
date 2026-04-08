@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: noteshelper
+      POSTGRES_PASSWORD: noteshelper_dev
+      POSTGRES_DB: noteshelper
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://noteshelper:noteshelper_dev@db:5432/noteshelper
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - upload_data:/app/uploads
+    depends_on:
+      - db
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  postgres_data:
+  upload_data:

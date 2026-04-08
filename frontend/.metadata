@@ -1,0 +1,42 @@
+# This file tracks properties of this Flutter project.
+# Used by Flutter tool to assess capabilities and perform upgrades etc.
+#
+# This file should be version controlled and should not be manually edited.
+
+version:
+  revision: "noteshelper-frontend"
+  channel: "stable"
+
+project_type: app
+
+# Tracks metadata for the flutter migrate command
+migration:
+  platforms:
+    - platform: root
+      create_revision: "noteshelper-frontend"
+      base_revision: "noteshelper-frontend"
+    - platform: android
+      create_revision: "noteshelper-frontend"
+      base_revision: "noteshelper-frontend"
+    - platform: ios
+      create_revision: "noteshelper-frontend"
+      base_revision: "noteshelper-frontend"
+    - platform: linux
+      create_revision: "noteshelper-frontend"
+      base_revision: "noteshelper-frontend"
+    - platform: macos
+      create_revision: "noteshelper-frontend"
+      base_revision: "noteshelper-frontend"
+    - platform: web
+      create_revision: "noteshelper-frontend"
+      base_revision: "noteshelper-frontend"
+    - platform: windows
+      create_revision: "noteshelper-frontend"
+      base_revision: "noteshelper-frontend"
+
+  # User provided section
+
+  # List of Local Coverage Paths (Coverage Paths Ignored)
+  unmanaged_files:
+    - 'lib/main.dart'
+    - 'ios/Runner.xcodeproj/project.pbxproj'
