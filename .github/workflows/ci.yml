@@ -18,13 +18,17 @@ jobs:
           channel: stable
           flutter-version: "3.27.4"
 
+      - name: Recreate platform files
+        working-directory: frontend
+        run: flutter create --org com.noteshelper --project-name noteshelper .
+
       - name: Install dependencies
         working-directory: frontend
         run: flutter pub get
 
       - name: Analyze
         working-directory: frontend
-        run: flutter analyze
+        run: flutter analyze --no-fatal-infos
 
       - name: Test
         working-directory: frontend

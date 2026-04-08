@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:noteshelper/models/note.dart';
 import 'package:noteshelper/providers/note_provider.dart';
 import 'package:noteshelper/widgets/loading_widget.dart';
 import 'package:noteshelper/widgets/error_widget.dart';
@@ -176,7 +177,7 @@ class _NoteDetailScreenState extends ConsumerState<NoteDetailScreen> {
     );
   }
 
-  Widget _buildViewer(ThemeData theme, dynamic note) {
+  Widget _buildViewer(ThemeData theme, Note note) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(
